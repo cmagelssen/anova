@@ -1,0 +1,10 @@
+name: test
+title:
+username:
+account: cmagelssen
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3872278
+bundleId: 4401376
+url: https://cmagelssen.shinyapps.io/test/
+when: 1616852225.60261

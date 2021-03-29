@@ -92,12 +92,63 @@ $$
 Før vi går videre tror jeg det er best at vi gir dere verdiene i denne modellen for å vise hvordan den fungerer.
 
 $$
-Fremgang.1RM_i =  + b1(Gruppe) + error_i
+Fremgang.1RM_i = 21.90 + b1(20.52*Gruppe) + error_i
 $$ 
+Modellen sier at vi har en intercept på 21.90. Dette er verdien når predictorvariabelen er 0. Den sier også at vi vi har en slope på 20.52. Med andre ord hvor vi må øke vår prediksjon med for en enhets øktning i X. Vi brukte 0 og 1 for å kode våre to grupper. Så hvis et individ tilhørte gruppe 0, blir vår prediksjon:
+
+$$
+Fremgang.1RM_i = 21.90 + b1(20.52*0) + error_i
+$$ 
+$$
+Fremgang.1RM_i = 21.90 + 0 + error_i
+$$ 
+$$
+Fremgang.1RM_i = 21.90 + error_i
+$$ 
+Hvis individet tilhører 0 gruppen er vår prediksjon 21.90. 
+
+$$
+Fremgang.1RM_i = 21.90 + b1(20.52*1) + error_i
+$$ 
+$$
+Fremgang.1RM_i = 42.48 + error_i
+$$ 
+Hvis individet tilhører 1 gruppen er vår prediksjon 42.48.
 
 
 
 
+
+
+
+
+
+
+
+
+```{r echo=FALSE}
+set.seed(2002) #viktig å ha med denne for å få nøyaktig samme datasett
+tre.sett <- rnorm(n = 12, mean = 41, sd = 5) #12 individer
+ett.sett <-rnorm(n = 12, mean = 21, sd = 5) #12 individer
+
+#lager en tibble fra tidyverse-pakken. Må ha lastet inn tidyverse library(tidyverse) i scriptfilen
+dat <- tibble(individ = seq(1:24),
+              gruppe = rep(c("tre.sett ", "ett.sett"), c(length(tre.sett), length(ett.sett))),
+              rm = c(tre.sett , ett.sett))
+
+
+```
+
+I R og Jamovi kan du gjøre det med følgende if/else statement. I R kan du bruke følgende kode:
+
+```{r echo=FALSE}
+#lager et nytt objekt som heter dummykodet.dat
+dummykodet.dat <- dat %>%
+  # her lager jeg en ny kolonne som heter dummykoder. If gruppe == 'ett.sett', gi verdien 0, else gi de 1.
+  mutate(dummykodet = if_else(gruppe == "ett.sett", 0, 1))
+
+lm(rm~dummykodet, dummykodet.dat)
+```
 
 
 Så det vi skal finne ut av er om mod
