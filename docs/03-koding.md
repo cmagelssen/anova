@@ -17,64 +17,35 @@ dummykodet.dat <- dat %>%
   mutate(dummykodet = if_else(gruppe == "ett.sett", 0, 1))
 ```
 I jamovi ville jeg sett følgende video: https://www.youtube.com/watch?v=iITxK27LfZk
-\begin{table}
 
-\caption{(\#tab:unnamed-chunk-4)Dummy koding}
-\centering
-\begin{tabular}[t]{r|l|r|r}
-\hline
-individ & gruppe & rm & dummykodet\\
-\hline
-1 & tre.sett & 40.467 & 1\\
-\hline
-2 & tre.sett & 49.072 & 1\\
-\hline
-3 & tre.sett & 47.941 & 1\\
-\hline
-4 & tre.sett & 44.514 & 1\\
-\hline
-5 & tre.sett & 52.288 & 1\\
-\hline
-6 & tre.sett & 40.018 & 1\\
-\hline
-7 & tre.sett & 49.484 & 1\\
-\hline
-8 & tre.sett & 29.210 & 1\\
-\hline
-9 & tre.sett & 40.593 & 1\\
-\hline
-10 & tre.sett & 37.587 & 1\\
-\hline
-11 & tre.sett & 35.427 & 1\\
-\hline
-12 & tre.sett & 42.494 & 1\\
-\hline
-13 & ett.sett & 17.706 & 0\\
-\hline
-14 & ett.sett & 17.072 & 0\\
-\hline
-15 & ett.sett & 18.268 & 0\\
-\hline
-16 & ett.sett & 25.426 & 0\\
-\hline
-17 & ett.sett & 32.703 & 0\\
-\hline
-18 & ett.sett & 19.102 & 0\\
-\hline
-19 & ett.sett & 22.238 & 0\\
-\hline
-20 & ett.sett & 22.271 & 0\\
-\hline
-21 & ett.sett & 26.179 & 0\\
-\hline
-22 & ett.sett & 20.349 & 0\\
-\hline
-23 & ett.sett & 23.528 & 0\\
-\hline
-24 & ett.sett & 17.960 & 0\\
-\hline
-\end{tabular}
-\end{table}
+Table: (\#tab:unnamed-chunk-4)Dummy koding
+
+| individ|gruppe   |     rm| dummykodet|
+|-------:|:--------|------:|----------:|
+|       1|tre.sett | 40.467|          1|
+|       2|tre.sett | 49.072|          1|
+|       3|tre.sett | 47.941|          1|
+|       4|tre.sett | 44.514|          1|
+|       5|tre.sett | 52.288|          1|
+|       6|tre.sett | 40.018|          1|
+|       7|tre.sett | 49.484|          1|
+|       8|tre.sett | 29.210|          1|
+|       9|tre.sett | 40.593|          1|
+|      10|tre.sett | 37.587|          1|
+|      11|tre.sett | 35.427|          1|
+|      12|tre.sett | 42.494|          1|
+|      13|ett.sett | 17.706|          0|
+|      14|ett.sett | 17.072|          0|
+|      15|ett.sett | 18.268|          0|
+|      16|ett.sett | 25.426|          0|
+|      17|ett.sett | 32.703|          0|
+|      18|ett.sett | 19.102|          0|
+|      19|ett.sett | 22.238|          0|
+|      20|ett.sett | 22.271|          0|
+|      21|ett.sett | 26.179|          0|
+|      22|ett.sett | 20.349|          0|
+|      23|ett.sett | 23.528|          0|
+|      24|ett.sett | 17.960|          0|
 ## Kontrastkoding
 Kontrastkoding er et alternativ til dummykoding. Det er en regel som er viktig å følge for å ha en gyldig kontrastkode, og det er at summen av kontrastkodene blir 0. For eksempel er -0.5 og 0.5 gyldige kontrastkoder fordi summen av disse blir 0. Det samme er -10 og +10. 0 og 1 derimot, slik vi har med en dummykodet variabel, er ikke er en gyldig kontrastkode fordi summen av disse blir 1. **Hvilke verdier vi velger å bruke på vår kontrastkodede variabel betyr ingenting for den statistiske test vi gjennomfører, men gjør at vi må fortolke resultatene litt forskjellig**. Med en kontrastkode på +10 og -10 er det en 20 enhets forskjell, mens det ved +0.5 og -0.5 kun er <input class='solveme nospaces' size='1' data-answer='["1"]'/> enhet forskjell. 
 
@@ -88,64 +59,35 @@ kontrastkodet.dat <- dummykodet.dat %>%
          )
 ```
 
-\begin{table}
 
-\caption{(\#tab:unnamed-chunk-6)Kontrastkoding}
-\centering
-\begin{tabular}[t]{r|l|r|r|r}
-\hline
-individ & gruppe & rm & dummykodet & kontrastkodet\\
-\hline
-1 & tre.sett & 40.467 & 1 & 0.5\\
-\hline
-2 & tre.sett & 49.072 & 1 & 0.5\\
-\hline
-3 & tre.sett & 47.941 & 1 & 0.5\\
-\hline
-4 & tre.sett & 44.514 & 1 & 0.5\\
-\hline
-5 & tre.sett & 52.288 & 1 & 0.5\\
-\hline
-6 & tre.sett & 40.018 & 1 & 0.5\\
-\hline
-7 & tre.sett & 49.484 & 1 & 0.5\\
-\hline
-8 & tre.sett & 29.210 & 1 & 0.5\\
-\hline
-9 & tre.sett & 40.593 & 1 & 0.5\\
-\hline
-10 & tre.sett & 37.587 & 1 & 0.5\\
-\hline
-11 & tre.sett & 35.427 & 1 & 0.5\\
-\hline
-12 & tre.sett & 42.494 & 1 & 0.5\\
-\hline
-13 & ett.sett & 17.706 & 0 & -0.5\\
-\hline
-14 & ett.sett & 17.072 & 0 & -0.5\\
-\hline
-15 & ett.sett & 18.268 & 0 & -0.5\\
-\hline
-16 & ett.sett & 25.426 & 0 & -0.5\\
-\hline
-17 & ett.sett & 32.703 & 0 & -0.5\\
-\hline
-18 & ett.sett & 19.102 & 0 & -0.5\\
-\hline
-19 & ett.sett & 22.238 & 0 & -0.5\\
-\hline
-20 & ett.sett & 22.271 & 0 & -0.5\\
-\hline
-21 & ett.sett & 26.179 & 0 & -0.5\\
-\hline
-22 & ett.sett & 20.349 & 0 & -0.5\\
-\hline
-23 & ett.sett & 23.528 & 0 & -0.5\\
-\hline
-24 & ett.sett & 17.960 & 0 & -0.5\\
-\hline
-\end{tabular}
-\end{table}
+Table: (\#tab:unnamed-chunk-6)Kontrastkoding
+
+| individ|gruppe   |     rm| dummykodet| kontrastkodet|
+|-------:|:--------|------:|----------:|-------------:|
+|       1|tre.sett | 40.467|          1|           0.5|
+|       2|tre.sett | 49.072|          1|           0.5|
+|       3|tre.sett | 47.941|          1|           0.5|
+|       4|tre.sett | 44.514|          1|           0.5|
+|       5|tre.sett | 52.288|          1|           0.5|
+|       6|tre.sett | 40.018|          1|           0.5|
+|       7|tre.sett | 49.484|          1|           0.5|
+|       8|tre.sett | 29.210|          1|           0.5|
+|       9|tre.sett | 40.593|          1|           0.5|
+|      10|tre.sett | 37.587|          1|           0.5|
+|      11|tre.sett | 35.427|          1|           0.5|
+|      12|tre.sett | 42.494|          1|           0.5|
+|      13|ett.sett | 17.706|          0|          -0.5|
+|      14|ett.sett | 17.072|          0|          -0.5|
+|      15|ett.sett | 18.268|          0|          -0.5|
+|      16|ett.sett | 25.426|          0|          -0.5|
+|      17|ett.sett | 32.703|          0|          -0.5|
+|      18|ett.sett | 19.102|          0|          -0.5|
+|      19|ett.sett | 22.238|          0|          -0.5|
+|      20|ett.sett | 22.271|          0|          -0.5|
+|      21|ett.sett | 26.179|          0|          -0.5|
+|      22|ett.sett | 20.349|          0|          -0.5|
+|      23|ett.sett | 23.528|          0|          -0.5|
+|      24|ett.sett | 17.960|          0|          -0.5|
 Spørsmålet dere sikkert lurer på er hvorfor vi dummykoder og kontrastkoder gruppe-variabelen vår. Det korte svaret er at vo gjør det fordi vi skal se at disse to måtene å kode på produserer forskjellige svar. 
 
 

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 H1: Alternativ hypotese | Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)</title>
+  <title>Chapter 9 Hvilken modell skal vi velge? | Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)</title>
   <meta name="description" content="." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 H1: Alternativ hypotese | Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)" />
+  <meta property="og:title" content="Chapter 9 Hvilken modell skal vi velge? | Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 H1: Alternativ hypotese | Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)" />
+  <meta name="twitter:title" content="Chapter 9 Hvilken modell skal vi velge? | Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)" />
   
   <meta name="twitter:description" content="." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="hvilken-modell-skal-vi-velge.html"/>
-<link rel="next" href="f-ratio-og-signifikanstesting.html"/>
+<link rel="prev" href="koding-av-kategoriske-variabler-1.html"/>
+
 <script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -194,104 +194,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="h1-alternativ-hypotese-1" class="section level1" number="5">
-<h1><span class="header-section-number">Chapter 5</span> H1: Alternativ hypotese</h1>
-<p>I forrige avsnitt redegjorde vi for at <strong>null-hypotesen (H0)</strong> er en ligning som består av kun en, som var gjennomsnittet for alle deltakerne i studien (uavhengig gruppe).</p>
-<p><span class="math display">\[
-data = (modell) + error
-\]</span>
-<span class="math display">\[
-Yi = b0 + error
-\]</span>
-<span class="math display">\[
- = mean + error
-\]</span>
-<span class="math display">\[
-1RM = mean + error
-\]</span>
-Det vi skal gjøre nå er å spørre oss nå er om det er behov for å legge til en ekstra prediktorvariabel i modellen eller om det er nok å beholde den ene prediktorvariabelen? Så det vi skal spørre oss om nå er</p>
-<p><span class="math display">\[
- = mean + error
-\]</span>
-En annen måte å si dette på er om det er forskjeller mellom de to gruppene eller om det ikke er det. Hvis det ikke er noen forskjeller mellom gruppene, så vil b1 være liten, og vil egentlig bare ende opp med samme prediksjon uansett hvilken gruppe de har tilhørt. Jeg har nå regnet ut hva verdiene i modellen er, så vi få et inntrykk av hvordan modellen virker før vi finner ut hvordan vi regner disse verdiene. Når jeg har brukt dummykoding har jeg fått følgende verdier i min modell:</p>
-<p><span class="math display">\[
-%1RM = b0 + b1 + error
-\]</span></p>
-<p><span class="math display">\[
-%1RM = 21.90  + b1(20.52*gruppe) + error
-\]</span></p>
-<p>Husk at gruppen vår er dummykodet som 0 og 1. Så hvis jeg har å gjøre med et individ som tilhører gruppe 0, så blir resultatet følgende</p>
-<p><span class="math display">\[
-%1RM = 21.90  + b1(20.52*0) + error
-\]</span></p>
-<p><span class="math display">\[
-%1RM = 21.90 + error
-\]</span>
-20.52*0 = 0, så vår prediksjon av et individ som tihører gruppe 0 blir da kun 21.90. Hvis vi har en person tilhørte gruppe 1, så blir vår prediksjon</p>
-<p><span class="math display">\[
-%1RM = 21.90 + b1(20.52*1) error
-\]</span>
-Som blir 42.42. Hva er spesielt med disse verdiene? Gå tilbake til.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="h1-alternativ-hypotese-1.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="h1-alternativ-hypotese-1.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2002</span>) <span class="co">#viktig å ha med denne for å få nøyaktig samme datasett</span></span>
-<span id="cb14-2"><a href="h1-alternativ-hypotese-1.html#cb14-2" aria-hidden="true" tabindex="-1"></a>tre.sett <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">12</span>, <span class="at">mean =</span> <span class="dv">41</span>, <span class="at">sd =</span> <span class="dv">5</span>) <span class="co">#12 individer</span></span>
-<span id="cb14-3"><a href="h1-alternativ-hypotese-1.html#cb14-3" aria-hidden="true" tabindex="-1"></a>ett.sett <span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">12</span>, <span class="at">mean =</span> <span class="dv">21</span>, <span class="at">sd =</span> <span class="dv">5</span>) <span class="co">#12 individer</span></span>
-<span id="cb14-4"><a href="h1-alternativ-hypotese-1.html#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="h1-alternativ-hypotese-1.html#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#lager en tibble fra tidyverse-pakken. Må ha lastet inn tidyverse library(tidyverse) i scriptfilen</span></span>
-<span id="cb14-6"><a href="h1-alternativ-hypotese-1.html#cb14-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">individ =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>),</span>
-<span id="cb14-7"><a href="h1-alternativ-hypotese-1.html#cb14-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">gruppe =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;tre.sett &quot;</span>, <span class="st">&quot;ett.sett&quot;</span>), <span class="fu">c</span>(<span class="fu">length</span>(tre.sett), <span class="fu">length</span>(ett.sett))),</span>
-<span id="cb14-8"><a href="h1-alternativ-hypotese-1.html#cb14-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">rm =</span> <span class="fu">c</span>(tre.sett , ett.sett))</span>
-<span id="cb14-9"><a href="h1-alternativ-hypotese-1.html#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="h1-alternativ-hypotese-1.html#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="h1-alternativ-hypotese-1.html#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#lager et nytt objekt som heter dummykodet.dat</span></span>
-<span id="cb14-12"><a href="h1-alternativ-hypotese-1.html#cb14-12" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb14-13"><a href="h1-alternativ-hypotese-1.html#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># her lager jeg en ny kolonne som heter dummykoder. If gruppe == &#39;ett.sett&#39;, gi verdien 0, else gi de 1.</span></span>
-<span id="cb14-14"><a href="h1-alternativ-hypotese-1.html#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dummykodet =</span> <span class="fu">if_else</span>(gruppe <span class="sc">==</span> <span class="st">&quot;ett.sett&quot;</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb14-15"><a href="h1-alternativ-hypotese-1.html#cb14-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb14-16"><a href="h1-alternativ-hypotese-1.html#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-17"><a href="h1-alternativ-hypotese-1.html#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="h1-alternativ-hypotese-1.html#cb14-18" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb14-19"><a href="h1-alternativ-hypotese-1.html#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># her lager jeg en ny kolonne som heter dummykoder. If gruppe == &#39;ett.sett&#39;, gi verdien 0, else gi de 1.</span></span>
-<span id="cb14-20"><a href="h1-alternativ-hypotese-1.html#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">kontrast =</span> <span class="fu">if_else</span>(gruppe <span class="sc">==</span> <span class="st">&quot;ett.sett&quot;</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
-<span id="cb14-21"><a href="h1-alternativ-hypotese-1.html#cb14-21" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb14-22"><a href="h1-alternativ-hypotese-1.html#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-23"><a href="h1-alternativ-hypotese-1.html#cb14-23" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb14-24"><a href="h1-alternativ-hypotese-1.html#cb14-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dummykodet =</span> <span class="fu">as.factor</span>(dummykodet),</span>
-<span id="cb14-25"><a href="h1-alternativ-hypotese-1.html#cb14-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">kontrast =</span> <span class="fu">as.factor</span>(kontrast))</span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="h1-alternativ-hypotese-1.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(rm <span class="sc">~</span> dummykodet, dat)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = rm ~ dummykodet, data = dat)
-## 
-## Coefficients:
-## (Intercept)  dummykodet1  
-##       21.90        20.52</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="h1-alternativ-hypotese-1.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb17-2"><a href="h1-alternativ-hypotese-1.html#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="h1-alternativ-hypotese-1.html#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="h1-alternativ-hypotese-1.html#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="h1-alternativ-hypotese-1.html#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">y=</span>rm, <span class="at">x=</span>individ)) <span class="sc">+</span> </span>
-<span id="cb17-6"><a href="h1-alternativ-hypotese-1.html#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>gruppe)) <span class="sc">+</span></span>
-<span id="cb17-7"><a href="h1-alternativ-hypotese-1.html#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula=</span>y<span class="sc">~</span>x) <span class="sc">+</span></span>
-<span id="cb17-8"><a href="h1-alternativ-hypotese-1.html#cb17-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-9"><a href="h1-alternativ-hypotese-1.html#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>()</span></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
-<img src="05-h1_files/figure-html/unnamed-chunk-4-1.png" alt="**CAPTION THIS FIGURE!!**" width="100%" />
-<p class="caption">
-Figure 4.1: <strong>CAPTION THIS FIGURE!!</strong>
-</p>
+<div id="hvilken-modell-skal-vi-velge-1" class="section level1" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Hvilken modell skal vi velge?</h1>
+<p>Her tenker jeg å si litt om at vi har ulike muligheter.</p>
+
 </div>
-<p>Her fikk jeg en intercept på 21.90 og en slope på 20.52. La oss prøve å få disse to til.</p>
-<p><span class="math display">\[
-Y = b0 + b1 + error
-\]</span>
-<span class="math display">\[
-Y = b0 + (b1*0) + error
-\]</span></p>
-<p><span class="math display">\[
-\]</span>
-Y = b0 + (b1*1) + error
-$$</p>
+
+
 
 </div>
 <div class="psyteachr_footer">
@@ -404,8 +313,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="hvilken-modell-skal-vi-velge.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="f-ratio-og-signifikanstesting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="koding-av-kategoriske-variabler-1.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
