@@ -1,0 +1,53 @@
+```{r echo=FALSE, include=FALSE}
+library(tidyverse)
+library(webex)
+```
+# Koding av kategoriske variabler
+I tabellen på s. kan du se at vi har en tabell med tre kolonner: en kolonne for hver variabel vi har i vårt datasett. Variabelen **gruppe** er en kategorisk vaiabel som har to ulike verdier: "ett.sett" og "tre.sett". Dette er de to gruppene som vi skal teste om er forskjellige. I programmeringsverdenen kalles disse denne typen data for et tekstobjekt, "strings" (python/javascript) eller "characters" (R). På norsk kalles disse verdiene for ord. Uansett navn er problemet at vi ikke kan putte ord inn i en statistisk modell; vi er nødt til å representere denne kategoriske vaiabelen med tallverdier. Det er flere måter å gjøre dette på, men de forskjellige måtene gir ulik resultat. Derfor må vi vie en god del tid på dette. Vi går gjennom to måter å gjøre dette på.
+
+## Dummykoding
+En vanlig metode kalles **dummykoding** eller **treatment-koding**. Den går ut på å lage en eller flere variabler med 0 og 1 som de to mulige verdiene. Antall variabler vi trenger avhenger av antall grupper vi vil sammenligne. Siden vårt datasett kun inneholder to grupper, så trenger vi kun en variabel. Vi kan den ene gruppen og den andre 1. Hovedregelen er at vi gir 0 til baselinegruppe og 1 til den eksperimentelle gruppen. Vi gir derfor 0 til 1.sett-gruppen og 1 til 3.sett-gruppen. Gjør dette før du går videre.
+
+```{r echo=FALSE}
+set.seed(2002) #viktig å ha med denne for å få nøyaktig samme datasett
+tre.sett <- rnorm(n = 12, mean = 41, sd = 5) #12 individer
+ett.sett <-rnorm(n = 12, mean = 21, sd = 5) #12 individer
+
+#lager en tibble fra tidyverse-pakken. Må ha lastet inn tidyverse library(tidyverse) i scriptfilen
+dat <- tibble(individ = seq(1:24),
+              gruppe = rep(c("tre.sett ", "ett.sett"), c(length(tre.sett), length(ett.sett))),
+              rm = c(tre.sett , ett.sett))
+```
+
+I R og Jamovi kan du gjøre det med følgende if/else statement. I R kan du bruke følgende kode:
+
+```{r}
+#lager et nytt objekt som heter dummykodet.dat
+dummykodet.dat <- dat %>%
+  # her lager jeg en ny kolonne som heter dummykoder. If gruppe == 'ett.sett', gi verdien 0, else gi de 1.
+  mutate(dummykodet = if_else(gruppe == "ett.sett", 0, 1))
+```
+I jamovi ville jeg sett følgende video: https://www.youtube.com/watch?v=iITxK27LfZk
+```{r echo=FALSE}
+knitr::kable(dummykodet.dat, digits = 3, caption = "Dummy koding")
+```
+## Kontrastkoding
+Kontrastkoding er et alternativ til dummykoding. Det er en regel som er viktig å følge for å ha en gyldig kontrastkode, og det er at summen av kontrastkodene blir 0. For eksempel er -0.5 og 0.5 gyldige kontrastkoder fordi summen av disse blir 0. Det samme er -10 og +10. 0 og 1 derimot, slik vi har med en dummykodet variabel, er ikke er en gyldig kontrastkode fordi summen av disse blir 1. **Hvilke verdier vi velger å bruke på vår kontrastkodede variabel betyr ingenting for den statistiske test vi gjennomfører, men gjør at vi må fortolke resultatene litt forskjellig**. Med en kontrastkode på +10 og -10 er det en 20 enhets forskjell, mens det ved +0.5 og -0.5 kun er `r fitb(1)` enhet forskjell. 
+
+
+```{r}
+#lager et nytt objekt som heter dummykodet.dat
+kontrastkodet.dat <- dummykodet.dat %>%
+  # her lager jeg en ny kolonne som heter kontrastkodet. If gruppe == 'ett.sett', gi verdien -0.5, else gi de +0.5
+  mutate(kontrastkodet = if_else(gruppe == "ett.sett", -0.5, +0.5)
+         )
+```
+
+```{r echo=FALSE}
+knitr::kable(kontrastkodet.dat, digits = 3, caption = "Kontrastkoding")
+```
+Spørsmålet dere sikkert lurer på er hvorfor vi dummykoder og kontrastkoder gruppe-variabelen vår. Det korte svaret er at vo gjør det fordi vi skal se at disse to måtene å kode på produserer forskjellige svar. 
+
+
+
+

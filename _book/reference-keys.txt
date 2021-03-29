@@ -1,0 +1,13 @@
+tab:nice-tab
+tab:unnamed-chunk-3
+tab:unnamed-chunk-6
+fig:nice-fig
+intro
+datasett-3-sett-vs.-1-sett
+regne-gjennomsnitt-for-de-to-gruppene
+figur-av-datasettet
+hvilken-modell-skal-vi-velge
+h0-null-hypotese
+h1-alternativ-hypotese
+f-ratio-og-signifikanstesting
+f-tester-i-jamovi

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 H1: Alternativ hypotese | Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)</title>
+  <meta name="description" content="." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 H1: Alternativ hypotese | Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 H1: Alternativ hypotese | Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)" />
+  
+  <meta name="twitter:description" content="." />
+  
+
+<meta name="author" content="Christian Magelssen" />
+
+
+<meta name="date" content="2021-03-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="hvilken-modell-skal-vi-velge.html"/>
+<link rel="next" href="f-ratio-og-signifikanstesting.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="psyTeachR Book Template">
+<meta property="og:description" content="Guide for psyTeachR course books.">
+<meta property="og:image" content="https://psyteachr.github.io/images/twitter/psyteachr.png">
+<meta property="og:url" content="https://psyteachr.github.io/book-template/">
+<meta property="twitter:card" content="summary_large_image">
+
+<link rel="shortcut icon" href="https://psyteachr.github.io/images/logo.png">
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="include/psyteachr.css" type="text/css" />
+<link rel="stylesheet" href="include/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Book Template</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduksjon</a></li>
+<li class="chapter" data-level="2" data-path="datasett.html"><a href="datasett.html"><i class="fa fa-check"></i><b>2</b> Datasett</a>
+<ul>
+<li class="chapter" data-level="2.0.1" data-path="datasett.html"><a href="datasett.html#bør-man-trene-med-ett-eller-flere-sett-i-styrketrening"><i class="fa fa-check"></i><b>2.0.1</b> Bør man trene med ett eller flere sett i styrketrening?</a></li>
+<li class="chapter" data-level="2.0.2" data-path="datasett.html"><a href="datasett.html#regne-gjennomsnitt-for-de-to-gruppene"><i class="fa fa-check"></i><b>2.0.2</b> Regne gjennomsnitt for de to gruppene</a></li>
+<li class="chapter" data-level="2.0.3" data-path="datasett.html"><a href="datasett.html#figur-av-datasettet"><i class="fa fa-check"></i><b>2.0.3</b> Figur av datasettet</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="koding-av-kategoriske-variabler.html"><a href="koding-av-kategoriske-variabler.html"><i class="fa fa-check"></i><b>3</b> Koding av kategoriske variabler</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="koding-av-kategoriske-variabler.html"><a href="koding-av-kategoriske-variabler.html#dummykoding"><i class="fa fa-check"></i><b>3.1</b> Dummykoding</a></li>
+<li class="chapter" data-level="3.2" data-path="koding-av-kategoriske-variabler.html"><a href="koding-av-kategoriske-variabler.html#kontrastkoding"><i class="fa fa-check"></i><b>3.2</b> Kontrastkoding</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="hvilken-modell-skal-vi-velge.html"><a href="hvilken-modell-skal-vi-velge.html"><i class="fa fa-check"></i><b>4</b> Hvilken modell skal vi velge?</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="hvilken-modell-skal-vi-velge.html"><a href="hvilken-modell-skal-vi-velge.html#null-hypothesis-significance-testing-nhst"><i class="fa fa-check"></i><b>4.1</b> Null-Hypothesis Significance Testing (NHST)</a></li>
+<li class="chapter" data-level="4.2" data-path="hvilken-modell-skal-vi-velge.html"><a href="hvilken-modell-skal-vi-velge.html#h0-null-hypotese"><i class="fa fa-check"></i><b>4.2</b> H0: Null-hypotese</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="h1-alternativ-hypotese.html"><a href="h1-alternativ-hypotese.html"><i class="fa fa-check"></i><b>5</b> H1: Alternativ hypotese</a></li>
+<li class="chapter" data-level="6" data-path="f-ratio-og-signifikanstesting.html"><a href="f-ratio-og-signifikanstesting.html"><i class="fa fa-check"></i><b>6</b> f-ratio og signifikanstesting</a></li>
+<li class="chapter" data-level="7" data-path="f-tester-i-jamovi.html"><a href="f-tester-i-jamovi.html"><i class="fa fa-check"></i><b>7</b> F-tester i Jamovi</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="8" data-path="koding-av-kategoriske-variabler-1.html"><a href="koding-av-kategoriske-variabler-1.html"><i class="fa fa-check"></i><b>8</b> Koding av kategoriske variabler</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="koding-av-kategoriske-variabler-1.html"><a href="koding-av-kategoriske-variabler-1.html#dummykoding-1"><i class="fa fa-check"></i><b>8.1</b> Dummykoding</a></li>
+<li class="chapter" data-level="8.2" data-path="koding-av-kategoriske-variabler-1.html"><a href="koding-av-kategoriske-variabler-1.html#kontrastkoding-1"><i class="fa fa-check"></i><b>8.2</b> Kontrastkoding</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="hvilken-modell-skal-vi-velge-1.html"><a href="hvilken-modell-skal-vi-velge-1.html"><i class="fa fa-check"></i><b>9</b> Hvilken modell skal vi velge?</a></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="divider"></li>
+<li><a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/" 
+    target="blank"><img alt="Creative Commons License" 
+    style="border-width:0" 
+    src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><li>
+<li><a href="https://psyteachr.github.io/" target="blank">PsyTeachR</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="h1-alternativ-hypotese" class="section level1" number="5">
+<h1><span class="header-section-number">Chapter 5</span> H1: Alternativ hypotese</h1>
+<p>I forrige avsnitt redegjorde vi for at <strong>null-hypotesen (H0)</strong> er en ligning som består av kun en, som var gjennomsnittet for alle deltakerne i studien (uavhengig gruppe).</p>
+<p><span class="math display">\[
+data = (modell) + error
+\]</span>
+<span class="math display">\[
+Yi = b0 + error
+\]</span>
+<span class="math display">\[
+ = mean + error
+\]</span>
+<span class="math display">\[
+1RM = mean + error
+\]</span>
+Det vi skal gjøre nå er å spørre oss nå er om det er behov for å legge til en ekstra prediktorvariabel i modellen eller om det er nok å beholde den ene prediktorvariabelen? Så det vi skal spørre oss om nå er</p>
+<p><span class="math display">\[
+ = mean + error
+\]</span>
+En annen måte å si dette på er om det er forskjeller mellom de to gruppene eller om det ikke er det. Hvis det ikke er noen forskjeller mellom gruppene, så vil b1 være liten, og vil egentlig bare ende opp med samme prediksjon uansett hvilken gruppe de har tilhørt. Jeg har nå regnet ut hva verdiene i modellen er, så vi få et inntrykk av hvordan modellen virker før vi finner ut hvordan vi regner disse verdiene. Når jeg har brukt dummykoding har jeg fått følgende verdier i min modell:</p>
+<p><span class="math display">\[
+%1RM = b0 + b1 + error
+\]</span></p>
+<p><span class="math display">\[
+%1RM = 21.90  + b1(20.52*gruppe) + error
+\]</span></p>
+<p>Husk at gruppen vår er dummykodet som 0 og 1. Så hvis jeg har å gjøre med et individ som tilhører gruppe 0, så blir resultatet følgende</p>
+<p><span class="math display">\[
+%1RM = 21.90  + b1(20.52*0) + error
+\]</span></p>
+<p><span class="math display">\[
+%1RM = 21.90 + error
+\]</span>
+20.52*0 = 0, så vår prediksjon av et individ som tihører gruppe 0 blir da kun 21.90. Hvis vi har en person tilhørte gruppe 1, så blir vår prediksjon</p>
+<p><span class="math display">\[
+%1RM = 21.90 + b1(20.52*1) error
+\]</span>
+Som blir 42.42. Hva er spesielt med disse verdiene? Gå tilbake til.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="h1-alternativ-hypotese.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="h1-alternativ-hypotese.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2002</span>) <span class="co">#viktig å ha med denne for å få nøyaktig samme datasett</span></span>
+<span id="cb8-2"><a href="h1-alternativ-hypotese.html#cb8-2" aria-hidden="true" tabindex="-1"></a>tre.sett <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">12</span>, <span class="at">mean =</span> <span class="dv">41</span>, <span class="at">sd =</span> <span class="dv">5</span>) <span class="co">#12 individer</span></span>
+<span id="cb8-3"><a href="h1-alternativ-hypotese.html#cb8-3" aria-hidden="true" tabindex="-1"></a>ett.sett <span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">12</span>, <span class="at">mean =</span> <span class="dv">21</span>, <span class="at">sd =</span> <span class="dv">5</span>) <span class="co">#12 individer</span></span>
+<span id="cb8-4"><a href="h1-alternativ-hypotese.html#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="h1-alternativ-hypotese.html#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#lager en tibble fra tidyverse-pakken. Må ha lastet inn tidyverse library(tidyverse) i scriptfilen</span></span>
+<span id="cb8-6"><a href="h1-alternativ-hypotese.html#cb8-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">individ =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>),</span>
+<span id="cb8-7"><a href="h1-alternativ-hypotese.html#cb8-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">gruppe =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;tre.sett &quot;</span>, <span class="st">&quot;ett.sett&quot;</span>), <span class="fu">c</span>(<span class="fu">length</span>(tre.sett), <span class="fu">length</span>(ett.sett))),</span>
+<span id="cb8-8"><a href="h1-alternativ-hypotese.html#cb8-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">rm =</span> <span class="fu">c</span>(tre.sett , ett.sett))</span>
+<span id="cb8-9"><a href="h1-alternativ-hypotese.html#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="h1-alternativ-hypotese.html#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="h1-alternativ-hypotese.html#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#lager et nytt objekt som heter dummykodet.dat</span></span>
+<span id="cb8-12"><a href="h1-alternativ-hypotese.html#cb8-12" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb8-13"><a href="h1-alternativ-hypotese.html#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># her lager jeg en ny kolonne som heter dummykoder. If gruppe == &#39;ett.sett&#39;, gi verdien 0, else gi de 1.</span></span>
+<span id="cb8-14"><a href="h1-alternativ-hypotese.html#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dummykodet =</span> <span class="fu">if_else</span>(gruppe <span class="sc">==</span> <span class="st">&quot;ett.sett&quot;</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb8-15"><a href="h1-alternativ-hypotese.html#cb8-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-16"><a href="h1-alternativ-hypotese.html#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="h1-alternativ-hypotese.html#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="h1-alternativ-hypotese.html#cb8-18" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb8-19"><a href="h1-alternativ-hypotese.html#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># her lager jeg en ny kolonne som heter dummykoder. If gruppe == &#39;ett.sett&#39;, gi verdien 0, else gi de 1.</span></span>
+<span id="cb8-20"><a href="h1-alternativ-hypotese.html#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">kontrast =</span> <span class="fu">if_else</span>(gruppe <span class="sc">==</span> <span class="st">&quot;ett.sett&quot;</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)</span>
+<span id="cb8-21"><a href="h1-alternativ-hypotese.html#cb8-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-22"><a href="h1-alternativ-hypotese.html#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="h1-alternativ-hypotese.html#cb8-23" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb8-24"><a href="h1-alternativ-hypotese.html#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dummykodet =</span> <span class="fu">as.factor</span>(dummykodet),</span>
+<span id="cb8-25"><a href="h1-alternativ-hypotese.html#cb8-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">kontrast =</span> <span class="fu">as.factor</span>(kontrast))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="h1-alternativ-hypotese.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(rm <span class="sc">~</span> dummykodet, dat)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = rm ~ dummykodet, data = dat)
+## 
+## Coefficients:
+## (Intercept)  dummykodet1  
+##       21.90        20.52</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="h1-alternativ-hypotese.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb11-2"><a href="h1-alternativ-hypotese.html#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="h1-alternativ-hypotese.html#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="h1-alternativ-hypotese.html#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="h1-alternativ-hypotese.html#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">y=</span>rm, <span class="at">x=</span>individ)) <span class="sc">+</span> </span>
+<span id="cb11-6"><a href="h1-alternativ-hypotese.html#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>gruppe)) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="h1-alternativ-hypotese.html#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">formula=</span>y<span class="sc">~</span>x) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="h1-alternativ-hypotese.html#cb11-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-9"><a href="h1-alternativ-hypotese.html#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
+<img src="05-h1_files/figure-html/unnamed-chunk-4-1.png" alt="**CAPTION THIS FIGURE!!**" width="100%" />
+<p class="caption">
+Figure 5.1: <strong>CAPTION THIS FIGURE!!</strong>
+</p>
+</div>
+<p>Her fikk jeg en intercept på 21.90 og en slope på 20.52. La oss prøve å få disse to til.</p>
+<p><span class="math display">\[
+Y = b0 + b1 + error
+\]</span>
+<span class="math display">\[
+Y = b0 + (b1*0) + error
+\]</span></p>
+<p><span class="math display">\[
+\]</span>
+Y = b0 + (b1*1) + error
+$$</p>
+
+</div>
+<div class="psyteachr_footer">
+  
+</div>
+<script>
+
+/* update total correct if #total_correct exists */
+update_total_correct = function() {
+  if (t = document.getElementById("total_correct")) {
+    t.innerHTML =
+      document.getElementsByClassName("correct").length + " of " +
+      document.getElementsByClassName("solveme").length + " correct";
+  }
+}
+
+/* solution button toggling function */
+b_func = function() {
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "");
+  }
+  
+  if (my_answer !== "" & real_answers.includes(my_answer)) {
+    cl.add("correct");
+  } else {
+    cl.remove("correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol>0){
+    var tol = JSON.parse(this.dataset.tol);  
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("correct");
+    } else {
+      cl.remove("correct");
+    }  
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("correct");
+    }  
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+  
+  /* set up solveme inputs */
+  var solveme = document.getElementsByClassName("solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off"); 
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+    
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+    
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="hvilken-modell-skal-vi-velge.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="f-ratio-og-signifikanstesting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"],
+"google": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": {},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

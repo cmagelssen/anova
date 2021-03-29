@@ -1,0 +1,1261 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{book}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)},
+  pdfauthor={Christian Magelssen},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{booktabs}
+
+\newenvironment{danger}
+    {
+    \hline\\
+    }
+    { 
+    \\\\\hline
+    }
+    
+\newenvironment{warning}
+    {
+    \hline\\
+    }
+    { 
+    \\\\\hline
+    }
+    
+\newenvironment{info}
+    {
+    \hline\\
+    }
+    { 
+    \\\\\hline
+    }
+    
+\newenvironment{try}
+    {
+    \hline\\
+    }
+    { 
+    \\\\\hline
+    }
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage[]{natbib}
+\bibliographystyle{apalike}
+
+\title{Bygge statistiske modeller med kategoriske prediktorvariabler (t-tester, ANOVA)}
+\author{Christian Magelssen}
+\date{2021-03-29}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\hypertarget{intro}{%
+\chapter{Introduksjon}\label{intro}}
+
+I dette kapittelet skal vi lære å bygge statistiske modeller for å teste om \textbf{to eller flere grupper er forskjellige på en avhengig variabel som er kontinuerlig}.
+
+Husk tilbake til forelesninger nr. 2 der vi sa at en variabel kan sies å være \textbf{kontinuerlig} når vi kan bestemme hvor presist vi ønsker å måle den. For eksempel regnes tid som en kontuerlig variabel fordi det (i prinsippet) ikke finnes noen grenser hvor presist vi kan måle det; vi kan måle det i år, måneder, uker, dager, timer, minutter, sekunder, tideler, hundredeler eller tusendeler.
+
+\textbf{Grupper} defineres i psykologifaget som en samling mennesker som deler bestemte karakterstikker. Det kan være spillere på et fotballag, individer på et treningssenter, eller menn og kvinner. Dette er også eksempler på naturlig inndelte grupper i samfunnet. Noen ganger kan det være interessant å se om disse gruppene er forskjellige. For eksempel kan det være interessant å se om individer som trener på treningssenter er sterkere enn de som ikke trener på treningssenter. Men i eksperimenter er vi som oftest interessert i om to grupper, som var like før behandling, har blitt forskjellige etter behandling. Vi randomiserer individer i to ulike grupper, slik at vi sikrer at vi blander disse individene godt (f.eks kjønn, motivasjon, interesser). Hvis eksperimentet har blitt gjennomført godt at det ikke er noen andre forklaringer på at disse to gruppene har blitt forskjellige etter intervensjonsperioden, så kan vi trekke en slutning om disse to gruppene trolig ikke kommer fra samme populasjon lenger; eksperimentet har gjort at disse to gruppene trolig kommer fra to forskjellige populasjoner.
+
+\hypertarget{datasett}{%
+\chapter{Datasett}\label{datasett}}
+
+\hypertarget{buxf8r-man-trene-med-ett-eller-flere-sett-i-styrketrening}{%
+\subsection{Bør man trene med ett eller flere sett i styrketrening?}\label{buxf8r-man-trene-med-ett-eller-flere-sett-i-styrketrening}}
+
+Et spørsmål mange treningsentusiaster lurer på er hvor mange serier som er best å gjennnomføre for å få maksimal treningseffekt i styrketrening. Noen mener at ett sett er tilstrekkelig, mens andre mener at et hardere treningstimuli er nødvendig og at to eller flere sett derfor er bedre. En forsker som var tidlig ute med å undersøke dette er deres egen Bent Rønnestad.
+
+Eksperimentet ble gjennomført som et \textbf{between-subject design} med to grupper: en gruppe trente 1 sett på underkroppen og 3 sett på overkroppen; En annen gruppe trente 3 sett på underkroppen og 1 sett på overkroppen. Disse gruppene kalte han henholdsvis \textbf{1L-3U} og \textbf{3L-1U} (L=lower; U=Upper). De to gruppene trente 3 ganger i uken i totalt 11 uker. Forskerne ville så se hva som ga best fremgang på 1RM. Den avhengige variabelen ble derfor \%-fremgang på 1RM på underkroppsøvelser. De fant at 3L-1U hadde større fremgang enn 1L-3U fra pre til post (41 vs 21 \% endring). Denne forskjellen var signifikant ved en uavhengig t-test. Med andre ord kan det se ut til at det kan lønne seg å trene flere sett per styrketreningsøkt.
+
+\includegraphics{design.png}
+Vi har ikke tilgang til dette datasettet, men jeg har simulert dette datasettet i R basert på verdiene jeg fant i artikkelen. Datasettet blir tilnærmet likt, men siden det er en simulering blir det aldri helt identisk. Datasettet ser du i tabellen under.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}
+\NormalTok{  dat, }\AttributeTok{booktabs =} \ConstantTok{TRUE}\NormalTok{,}
+  \AttributeTok{caption =} \StringTok{\textquotesingle{}Simulert datasett\textquotesingle{}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-3}Simulert datasett}
+\centering
+\begin{tabular}[t]{rlr}
+\toprule
+individ & gruppe & rm\\
+\midrule
+1 & tre.sett & 40.46704\\
+2 & tre.sett & 49.07223\\
+3 & tre.sett & 47.94131\\
+4 & tre.sett & 44.51389\\
+5 & tre.sett & 52.28750\\
+\addlinespace
+6 & tre.sett & 40.01750\\
+7 & tre.sett & 49.48425\\
+8 & tre.sett & 29.21048\\
+9 & tre.sett & 40.59293\\
+10 & tre.sett & 37.58676\\
+\addlinespace
+11 & tre.sett & 35.42651\\
+12 & tre.sett & 42.49354\\
+13 & ett.sett & 17.70576\\
+14 & ett.sett & 17.07181\\
+15 & ett.sett & 18.26811\\
+\addlinespace
+16 & ett.sett & 25.42594\\
+17 & ett.sett & 32.70313\\
+18 & ett.sett & 19.10226\\
+19 & ett.sett & 22.23827\\
+20 & ett.sett & 22.27148\\
+\addlinespace
+21 & ett.sett & 26.17889\\
+22 & ett.sett & 20.34857\\
+23 & ett.sett & 23.52773\\
+24 & ett.sett & 17.95966\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Du kan få nøyaktig samme datsett ved å klippe ut og lime inn følgende kode i en skript-fil i R (husk å laste inn tidyverse-pakken, library(tidyverse) ). Du kan også laste ned datasettet som en .csv fil fra canvas.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{2002}\NormalTok{) }\CommentTok{\#viktig å ha med denne for å få nøyaktig samme datasett}
+\NormalTok{tre.sett }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{12}\NormalTok{, }\AttributeTok{mean =} \DecValTok{41}\NormalTok{, }\AttributeTok{sd =} \DecValTok{5}\NormalTok{) }\CommentTok{\#12 individer}
+\NormalTok{ett.sett }\OtherTok{\textless{}{-}}\FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{12}\NormalTok{, }\AttributeTok{mean =} \DecValTok{21}\NormalTok{, }\AttributeTok{sd =} \DecValTok{5}\NormalTok{) }\CommentTok{\#12 individer}
+
+\CommentTok{\#lager en tibble fra tidyverse{-}pakken. Må ha lastet inn tidyverse library(tidyverse) i scriptfilen}
+\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{individ =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{24}\NormalTok{),}
+              \AttributeTok{gruppe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"tre.sett "}\NormalTok{, }\StringTok{"ett.sett"}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\FunctionTok{length}\NormalTok{(tre.sett), }\FunctionTok{length}\NormalTok{(ett.sett))),}
+              \AttributeTok{rm =} \FunctionTok{c}\NormalTok{(tre.sett , ett.sett))}
+\end{Highlighting}
+\end{Shaded}
+
+Før du går videre er det greit at du gjør deg kjent med datasettet som vi har generert. Studer datasettet og svar på følgende spørsmål:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Hvor mange kolonner er det i tabellen over?
+\item
+  Hvor mange deltakere var med i studien?
+\item
+  Hvilke to verdier kan variabelen gruppe? og
+\end{enumerate}
+
+\hypertarget{regne-gjennomsnitt-for-de-to-gruppene}{%
+\subsection{Regne gjennomsnitt for de to gruppene}\label{regne-gjennomsnitt-for-de-to-gruppene}}
+
+Bra! Det er alltid viktig å bli kjent med sitt eget datasett, men nå som du har det kan vi gå videre. Vi er interessert i om det er forskjeller mellom de to gruppene (``tre.sett'' vs.~ett.sett) på \% fremgang fra pre- til post-test. Så kanskje vi kan starte med å se om det er forskjeller i gjennomsnitt mellom to gruppene? Dette kan enkelt gjøres i R, Jamovi eller excel. Her er en kode for å gjøre dette i R:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#jeg lager et oobjekt som heter mean\_rm }
+\NormalTok{mean\_rm }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#Jeg grupperer etter gruppe, slik at jeg får et mean for hver gruppe istf. for å få mean for alle individene}
+  \CommentTok{\#group\_by er en funksjon for dette}
+  \FunctionTok{group\_by}\NormalTok{(gruppe) }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\#deretter bruker jeg summarise funksjonen for å regne gjennomsnitt}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{mean.fremgang.1RM =} \FunctionTok{mean}\NormalTok{(rm))}
+\end{Highlighting}
+\end{Shaded}
+
+Koden gir oss følgende tabell:
+\textbackslash begin\{table\}
+
+\textbackslash caption\{\label{tab:unnamed-chunk-6}Gjennomsnittlige \%-vis fremgang for de to gruppene\}
+\centering
+
+\begin{tabular}[t]{lr}
+\toprule
+gruppe & mean.fremgang.1RM\\
+\midrule
+ett.sett & 21.90013\\
+tre.sett & 42.42450\\
+\bottomrule
+\end{tabular}
+
+\textbackslash end\{table\}
+
+Hvilken gruppe hadde mest fremgang?
+ett.sett tre.sett`
+
+\hypertarget{figur-av-datasettet}{%
+\subsection{Figur av datasettet}\label{figur-av-datasettet}}
+
+Vi kan også presentere dataen i en figur. For denne typen data er det veldig vanlig å bruke et \textbf{stolpediagram}:
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{02-datasett_files/figure-latex/nice-fig-1} 
+
+}
+
+\caption{Here is a nice figure!}\label{fig:nice-fig}
+\end{figure}
+
+Et stolpediagram er pent å se på, men er egentlig designet for å kategoriske data. For eksempel er det fint å bruke dette når vi skal presentere frekvensen antall som har kjørt bil til skolen og antall personer som har gått. Les \href{https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1002128}{Beyond Bar and Line Graphs: Time for a New Data Presentation Paradigm}. Deretter svar på følgende spørsmål for å se om du har forstått problemene ved å bruke stolpediagram på kontinuerlig data.
+
+``Stolpediagram er designet for kontinuerlig kategorisk data. Høyden på stolpen representerer (bruk det norske begrepet!), hvilket vil si at det også må ligge noen observasjoner over og under stolpen. Man blir dermed ikke lurt lurt ved å bruke et stolpediagram''. Et stolpediagram viser heller ikke standard error standardavvik CI fordelingen av observasjonene, og dette spesielt være problematisk ved store små. Derfor anbefaler forfatterne i artikkelen at man viser dataen mer ved å for eksempel bruke et bar graph scatterplot. Hvis man likevel ønsker å bruke et stolpediagram for å presentere dataen er det viktig at man forteller om man har brukt SE, SD eller CI. Stanard error for gjennomsnittet regnes ved å ta \(SD/sqrt(N)\), så ved store utvalg vil standard error være høyt lite. Standardavviket er kun \(sqrt(varians/n-1)\), så denne vil i større mindre grad være påvirket av utvalgsstørrelsen".
+
+\hypertarget{koding-av-kategoriske-variabler}{%
+\chapter{Koding av kategoriske variabler}\label{koding-av-kategoriske-variabler}}
+
+I tabellen på s. kan du se at vi har en tabell med tre kolonner: en kolonne for hver variabel vi har i vårt datasett. Variabelen \textbf{gruppe} er en kategorisk vaiabel som har to ulike verdier: ``ett.sett'' og ``tre.sett''. Dette er de to gruppene som vi skal teste om er forskjellige. I programmeringsverdenen kalles disse denne typen data for et tekstobjekt, ``strings'' (python/javascript) eller ``characters'' (R). På norsk kalles disse verdiene for ord. Uansett navn er problemet at vi ikke kan putte ord inn i en statistisk modell; vi er nødt til å representere denne kategoriske vaiabelen med tallverdier. Det er flere måter å gjøre dette på, men de forskjellige måtene gir ulik resultat. Derfor må vi vie en god del tid på dette. Vi går gjennom to måter å gjøre dette på.
+
+\hypertarget{dummykoding}{%
+\section{Dummykoding}\label{dummykoding}}
+
+En vanlig metode kalles \textbf{dummykoding} eller \textbf{treatment-koding}. Den går ut på å lage en eller flere variabler med 0 og 1 som de to mulige verdiene. Antall variabler vi trenger avhenger av antall grupper vi vil sammenligne. Siden vårt datasett kun inneholder to grupper, så trenger vi kun en variabel. Vi kan den ene gruppen og den andre 1. Hovedregelen er at vi gir 0 til baselinegruppe og 1 til den eksperimentelle gruppen. Vi gir derfor 0 til 1.sett-gruppen og 1 til 3.sett-gruppen. Gjør dette før du går videre.
+
+I R og Jamovi kan du gjøre det med følgende if/else statement. I R kan du bruke følgende kode:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#lager et nytt objekt som heter dummykodet.dat}
+\NormalTok{dummykodet.dat }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# her lager jeg en ny kolonne som heter dummykoder. If gruppe == \textquotesingle{}ett.sett\textquotesingle{}, gi verdien 0, else gi de 1.}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{dummykodet =} \FunctionTok{if\_else}\NormalTok{(gruppe }\SpecialCharTok{==} \StringTok{"ett.sett"}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+I jamovi ville jeg sett følgende video: \url{https://www.youtube.com/watch?v=iITxK27LfZk}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-4}Dummy koding}
+\centering
+\begin{tabular}[t]{r|l|r|r}
+\hline
+individ & gruppe & rm & dummykodet\\
+\hline
+1 & tre.sett & 40.467 & 1\\
+\hline
+2 & tre.sett & 49.072 & 1\\
+\hline
+3 & tre.sett & 47.941 & 1\\
+\hline
+4 & tre.sett & 44.514 & 1\\
+\hline
+5 & tre.sett & 52.288 & 1\\
+\hline
+6 & tre.sett & 40.018 & 1\\
+\hline
+7 & tre.sett & 49.484 & 1\\
+\hline
+8 & tre.sett & 29.210 & 1\\
+\hline
+9 & tre.sett & 40.593 & 1\\
+\hline
+10 & tre.sett & 37.587 & 1\\
+\hline
+11 & tre.sett & 35.427 & 1\\
+\hline
+12 & tre.sett & 42.494 & 1\\
+\hline
+13 & ett.sett & 17.706 & 0\\
+\hline
+14 & ett.sett & 17.072 & 0\\
+\hline
+15 & ett.sett & 18.268 & 0\\
+\hline
+16 & ett.sett & 25.426 & 0\\
+\hline
+17 & ett.sett & 32.703 & 0\\
+\hline
+18 & ett.sett & 19.102 & 0\\
+\hline
+19 & ett.sett & 22.238 & 0\\
+\hline
+20 & ett.sett & 22.271 & 0\\
+\hline
+21 & ett.sett & 26.179 & 0\\
+\hline
+22 & ett.sett & 20.349 & 0\\
+\hline
+23 & ett.sett & 23.528 & 0\\
+\hline
+24 & ett.sett & 17.960 & 0\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{kontrastkoding}{%
+\section{Kontrastkoding}\label{kontrastkoding}}
+
+Kontrastkoding er et alternativ til dummykoding. Det er en regel som er viktig å følge for å ha en gyldig kontrastkode, og det er at summen av kontrastkodene blir 0. For eksempel er -0.5 og 0.5 gyldige kontrastkoder fordi summen av disse blir 0. Det samme er -10 og +10. 0 og 1 derimot, slik vi har med en dummykodet variabel, er ikke er en gyldig kontrastkode fordi summen av disse blir 1. \textbf{Hvilke verdier vi velger å bruke på vår kontrastkodede variabel betyr ingenting for den statistiske test vi gjennomfører, men gjør at vi må fortolke resultatene litt forskjellig}. Med en kontrastkode på +10 og -10 er det en 20 enhets forskjell, mens det ved +0.5 og -0.5 kun er enhet forskjell.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#lager et nytt objekt som heter dummykodet.dat}
+\NormalTok{kontrastkodet.dat }\OtherTok{\textless{}{-}}\NormalTok{ dummykodet.dat }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# her lager jeg en ny kolonne som heter kontrastkodet. If gruppe == \textquotesingle{}ett.sett\textquotesingle{}, gi verdien {-}0.5, else gi de +0.5}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{kontrastkodet =} \FunctionTok{if\_else}\NormalTok{(gruppe }\SpecialCharTok{==} \StringTok{"ett.sett"}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.5}\NormalTok{, }\SpecialCharTok{+}\FloatTok{0.5}\NormalTok{)}
+\NormalTok{         )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-6}Kontrastkoding}
+\centering
+\begin{tabular}[t]{r|l|r|r|r}
+\hline
+individ & gruppe & rm & dummykodet & kontrastkodet\\
+\hline
+1 & tre.sett & 40.467 & 1 & 0.5\\
+\hline
+2 & tre.sett & 49.072 & 1 & 0.5\\
+\hline
+3 & tre.sett & 47.941 & 1 & 0.5\\
+\hline
+4 & tre.sett & 44.514 & 1 & 0.5\\
+\hline
+5 & tre.sett & 52.288 & 1 & 0.5\\
+\hline
+6 & tre.sett & 40.018 & 1 & 0.5\\
+\hline
+7 & tre.sett & 49.484 & 1 & 0.5\\
+\hline
+8 & tre.sett & 29.210 & 1 & 0.5\\
+\hline
+9 & tre.sett & 40.593 & 1 & 0.5\\
+\hline
+10 & tre.sett & 37.587 & 1 & 0.5\\
+\hline
+11 & tre.sett & 35.427 & 1 & 0.5\\
+\hline
+12 & tre.sett & 42.494 & 1 & 0.5\\
+\hline
+13 & ett.sett & 17.706 & 0 & -0.5\\
+\hline
+14 & ett.sett & 17.072 & 0 & -0.5\\
+\hline
+15 & ett.sett & 18.268 & 0 & -0.5\\
+\hline
+16 & ett.sett & 25.426 & 0 & -0.5\\
+\hline
+17 & ett.sett & 32.703 & 0 & -0.5\\
+\hline
+18 & ett.sett & 19.102 & 0 & -0.5\\
+\hline
+19 & ett.sett & 22.238 & 0 & -0.5\\
+\hline
+20 & ett.sett & 22.271 & 0 & -0.5\\
+\hline
+21 & ett.sett & 26.179 & 0 & -0.5\\
+\hline
+22 & ett.sett & 20.349 & 0 & -0.5\\
+\hline
+23 & ett.sett & 23.528 & 0 & -0.5\\
+\hline
+24 & ett.sett & 17.960 & 0 & -0.5\\
+\hline
+\end{tabular}
+\end{table}
+
+Spørsmålet dere sikkert lurer på er hvorfor vi dummykoder og kontrastkoder gruppe-variabelen vår. Det korte svaret er at vo gjør det fordi vi skal se at disse to måtene å kode på produserer forskjellige svar.
+
+\hypertarget{hvilken-modell-skal-vi-velge}{%
+\chapter{Hvilken modell skal vi velge?}\label{hvilken-modell-skal-vi-velge}}
+
+Her tenker jeg å si litt om at vi har ulike muligheter.
+
+\hypertarget{null-hypothesis-significance-testing-nhst}{%
+\section{Null-Hypothesis Significance Testing (NHST)}\label{null-hypothesis-significance-testing-nhst}}
+
+I forelesningene har vi snakket en god del om å teste hypoteser. Paradigmet vi bruker kalles \textbf{Null-Hypothesis Significance Testing (NHST)}, og går ut på at forskeren fremstiller to hypoteser:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{H0}: En null-hypotese som sier at det ikke er noen effekt (f.eks. ingen forskjeller mellom grupper, ingen sammenheng mellom variablene)
+\item
+  \textbf{H1}: En alternativ/eksperimentell hypotese som sier at det er en effekt (f.eks. det er en forskjell mellom gruppene)
+\end{enumerate}
+
+Forskeren gjennomfører deretter en \textbf{statistisk test} som representerer den alternative hypotesen. Utfallet av testen er en \textbf{verdi}, for eksempel en \emph{z-verdi}, \emph{t-verdi} eller \emph{f-verdi}, som vi kan bruke til å regne ut sannsynligheten for, gitt at null-hypotesen er sann. Forskjellige tester opererer med forskjellige navn på verdiene sine (sorry, men det er bare slik det er).
+
+\hypertarget{h0-null-hypotese}{%
+\section{H0: Null-hypotese}\label{h0-null-hypotese}}
+
+Som dere allerede vet dreier vitenskapen seg om å bygge statistiske modeller. Vi har lært at vi kan en bruke en lineær ligning til alle våre statistiske oppgaver:
+
+\[
+data = (modell) + error
+\]
+
+\textbf{Data} er den avhengige variabelen som vi har målt for alle deltakerne og som vi kan bruke en modell til å predikere. En \textbf{modell} er egentlig bare en representasjon av denne dataen, og tre enkle modeller som dere har lært er: \textbf{mean}, \textbf{median} og \textbf{mode}. Et fellestrekk for disse modellene er at de sier noe om den typiske skåren i datasettet. Mode sier hvilken skår som hadde flest observasjoner, medianen sier noe om den midterste verdien i datasettet når observasjonene er rangert fra høy til lav, mens gjennomsnittet\ldots ja, den sier hva som var gjennomsnittet. I de aller fleste tilfeller er \textbf{mean} den modellen vi ønsker å benytte (en lang redegjørelse hvorfor kan jeg ikke gi her, men se tidligere forelesninger).
+
+I vår studie ønsker vi å teste om det er forskjeller mellom de to gruppene som har blitt disponert for ulikt treningsopplegg (3 versus 1 sett). Det første vi må spørre oss er om vi virkelig trenger å vite noe om hvordan disse deltakerne har trent eller om det er nok å bare bruke \textbf{mean} som modell.
+
+\[
+fremgang.1RM = (mean) + error
+\]
+Det blir enklere å se hva vi mener med \textbf{mean som modell} når vi setter dette opp i en tabell, slik om i tabellen under. På denne måten ser du at modellen sier at alle deltakerne hadde samme fremgang i 1RM (som var gjennomsnittet).
+
+\label{tab:unnamed-chunk-3}Mean som modell
+
+individ
+
+gruppe
+
+rm
+
+modell.mean
+
+error
+
+1
+
+tre.sett
+
+40.467
+
+32.162
+
+8.305
+
+2
+
+tre.sett
+
+49.072
+
+32.162
+
+16.910
+
+3
+
+tre.sett
+
+47.941
+
+32.162
+
+15.779
+
+4
+
+tre.sett
+
+44.514
+
+32.162
+
+12.352
+
+5
+
+tre.sett
+
+52.288
+
+32.162
+
+20.125
+
+6
+
+tre.sett
+
+40.018
+
+32.162
+
+7.855
+
+7
+
+tre.sett
+
+49.484
+
+32.162
+
+17.322
+
+8
+
+tre.sett
+
+29.210
+
+32.162
+
+-2.952
+
+9
+
+tre.sett
+
+40.593
+
+32.162
+
+8.431
+
+10
+
+tre.sett
+
+37.587
+
+32.162
+
+5.424
+
+11
+
+tre.sett
+
+35.427
+
+32.162
+
+3.264
+
+12
+
+tre.sett
+
+42.494
+
+32.162
+
+10.331
+
+13
+
+ett.sett
+
+17.706
+
+32.162
+
+-14.457
+
+14
+
+ett.sett
+
+17.072
+
+32.162
+
+-15.091
+
+15
+
+ett.sett
+
+18.268
+
+32.162
+
+-13.894
+
+16
+
+ett.sett
+
+25.426
+
+32.162
+
+-6.736
+
+17
+
+ett.sett
+
+32.703
+
+32.162
+
+0.541
+
+18
+
+ett.sett
+
+19.102
+
+32.162
+
+-13.060
+
+19
+
+ett.sett
+
+22.238
+
+32.162
+
+-9.924
+
+20
+
+ett.sett
+
+22.271
+
+32.162
+
+-9.891
+
+21
+
+ett.sett
+
+26.179
+
+32.162
+
+-5.983
+
+22
+
+ett.sett
+
+20.349
+
+32.162
+
+-11.814
+
+23
+
+ett.sett
+
+23.528
+
+32.162
+
+-8.635
+
+24
+
+ett.sett
+
+17.960
+
+32.162
+
+-14.203
+
+La oss prøve et eksempel for å se hvordan modellen virker. For individ 1 målte vi en fremgang i 1RM underkropp på \textbf{40.467}, men modellen vår sa \textbf{32.162}. Så modellen hadde en error på \textbf{8.305}.
+\[
+fremgang.1RM = (mean) + error
+\]
+\[
+40.467 = 32.162 + 8.305
+\]
+Prøv modellen du også: For individ nr. 8, sier modellen at individet hadde en skår på , men denne personen hadde faktisk en skår på . Modellen bommet derfor med .
+
+Vi kan fortsette slik for alle deltakerne vi har hatt med i studien, men husk fra tidligere forelesninger at vi egentlig ikke er interessert i hvor mye modellen bommer for hvert enkelt individ totalt, men totalt for hvert enkelt individ. Vi kan summere all erroren, men gjør vi dette får vi null 0 3 -3. Dette er fordi modellen både underestimerer og overestimerer tar feil, så vi ender opp med både negative og positive tall. Summerer vi disse får vi 0.Vi løser dette problemet effektivt ved å regne \textbf{Squared error (error\^{}2)}. Hvis vi summerer error\^{}2 får vi \textbf{Sum of Squared Error}.
+
+Vi kan regne ut hvor mye \textbf{Sum of Squared Error} vi får hvis vi bruker mean som modell. Da får vi . Dette tallet er viktig! Det representerer hvor mye error det i en modell der vi bruker mean som modell. Dette er null-hypotesen vår. Hvis det ikke er noen forskjell mellom gruppene er det like gret å bare å bare bruke mean som modell. Men hvis vi finner ut at modellen vår blir bedre (dvs. reduserer Sum of Squared Error) ved å legge til en prediktorvariabel som består er av gruppevariabelen vår, da bør vi gjøre dette. Hvordan vi gjør dette blir temaet i neste avsnitt.
+
+Før du går videre er det greit å visualisere hvordan null-hypotesen ser ut rent visuelt. Den rød streken i figuren under representerer modellen vår som er mean. Som du ser, så gjør den ingen justeringer for de ulike individene.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(dat, }\FunctionTok{aes}\NormalTok{(individ, rm)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size=}\FloatTok{2.2}\NormalTok{, }\AttributeTok{color=}\StringTok{"\#00BFC4"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \DecValTok{32}\NormalTok{, }\AttributeTok{color=}\StringTok{"\#f8766D"}\NormalTok{, }\AttributeTok{size=}\FloatTok{1.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{25}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{60}\NormalTok{, }\DecValTok{5}\NormalTok{)) }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x=}\StringTok{"deltaker"}\NormalTok{, }\AttributeTok{y=}\StringTok{"\% fremgang 1RM"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{04-h0_files/figure-latex/unnamed-chunk-4-1} 
+
+}
+
+\caption{**CAPTION THIS FIGURE!!**}\label{fig:unnamed-chunk-4}
+\end{figure}
+
+\hypertarget{h1-alternativ-hypotese}{%
+\section{H1: Alternativ hypotese}\label{h1-alternativ-hypotese}}
+
+I forrige avsnitt definerte vi \textbf{null-hypotesen (H0)} som en modell som gir samme prediksjon for hver enkelt deltaker uavhengig av hvilken treningsgruppe de tilhører. Og vi regnet ut hvor mye Sum of Squared Error sam var i denne modellen (som var 3243.784). Det vi skal spørre om nå er om det et poeng på å bruke en mer kompleks modell der vi legger til en prediktorvariabel.
+
+\[
+data = (modell) + error
+\]
+Modell 1
+
+\[
+Y_i = b0 + error_i
+\]
+Modell h1
+\[
+Y_i = b0 + b1 + error_i
+\]
+
+Så det vi skal finne ut av er om mod
+
+\[
+Yi = b0 + error
+\]
+
+Det vi skal gjøre nå er å spørre oss nå er om det er behov for å legge til en ekstra prediktorvariabel i modellen eller om det er nok å beholde den ene prediktorvariabelen? Så det vi skal spørre oss om nå er
+
+\[
+ = mean + error
+\]
+En annen måte å si dette på er om det er forskjeller mellom de to gruppene eller om det ikke er det. Hvis det ikke er noen forskjeller mellom gruppene, så vil b1 være liten, og vil egentlig bare ende opp med samme prediksjon uansett hvilken gruppe de har tilhørt. Jeg har nå regnet ut hva verdiene i modellen er, så vi få et inntrykk av hvordan modellen virker før vi finner ut hvordan vi regner disse verdiene. Når jeg har brukt dummykoding har jeg fått følgende verdier i min modell:
+
+\[
+%1RM = b0 + b1 + error
+\]
+
+\[
+%1RM = 21.90  + b1(20.52*gruppe) + error
+\]
+
+Husk at gruppen vår er dummykodet som 0 og 1. Så hvis jeg har å gjøre med et individ som tilhører gruppe 0, så blir resultatet følgende
+
+\[
+%1RM = 21.90  + b1(20.52*0) + error
+\]
+
+\[
+%1RM = 21.90 + error
+\]
+20.52*0 = 0, så vår prediksjon av et individ som tihører gruppe 0 blir da kun 21.90. Hvis vi har en person tilhørte gruppe 1, så blir vår prediksjon
+
+\[
+%1RM = 21.90 + b1(20.52*1) error
+\]
+Som blir 42.42. Hva er spesielt med disse verdiene? Gå tilbake til.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{2002}\NormalTok{) }\CommentTok{\#viktig å ha med denne for å få nøyaktig samme datasett}
+\NormalTok{tre.sett }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{12}\NormalTok{, }\AttributeTok{mean =} \DecValTok{41}\NormalTok{, }\AttributeTok{sd =} \DecValTok{5}\NormalTok{) }\CommentTok{\#12 individer}
+\NormalTok{ett.sett }\OtherTok{\textless{}{-}}\FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{12}\NormalTok{, }\AttributeTok{mean =} \DecValTok{21}\NormalTok{, }\AttributeTok{sd =} \DecValTok{5}\NormalTok{) }\CommentTok{\#12 individer}
+
+\CommentTok{\#lager en tibble fra tidyverse{-}pakken. Må ha lastet inn tidyverse library(tidyverse) i scriptfilen}
+\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{individ =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{24}\NormalTok{),}
+              \AttributeTok{gruppe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"tre.sett "}\NormalTok{, }\StringTok{"ett.sett"}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\FunctionTok{length}\NormalTok{(tre.sett), }\FunctionTok{length}\NormalTok{(ett.sett))),}
+              \AttributeTok{rm =} \FunctionTok{c}\NormalTok{(tre.sett , ett.sett))}
+
+
+\CommentTok{\#lager et nytt objekt som heter dummykodet.dat}
+\NormalTok{dat }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# her lager jeg en ny kolonne som heter dummykoder. If gruppe == \textquotesingle{}ett.sett\textquotesingle{}, gi verdien 0, else gi de 1.}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{dummykodet =} \FunctionTok{if\_else}\NormalTok{(gruppe }\SpecialCharTok{==} \StringTok{"ett.sett"}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{  )}
+
+
+\NormalTok{dat }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# her lager jeg en ny kolonne som heter dummykoder. If gruppe == \textquotesingle{}ett.sett\textquotesingle{}, gi verdien 0, else gi de 1.}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{kontrast =} \FunctionTok{if\_else}\NormalTok{(gruppe }\SpecialCharTok{==} \StringTok{"ett.sett"}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.5}\NormalTok{, }\FloatTok{0.5}\NormalTok{)}
+\NormalTok{  )}
+
+\NormalTok{dat }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{dummykodet =} \FunctionTok{as.factor}\NormalTok{(dummykodet),}
+         \AttributeTok{kontrast =} \FunctionTok{as.factor}\NormalTok{(kontrast))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{lm}\NormalTok{(rm }\SpecialCharTok{\textasciitilde{}}\NormalTok{ dummykodet, dat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = rm ~ dummykodet, data = dat)
+## 
+## Coefficients:
+## (Intercept)  dummykodet1  
+##       21.90        20.52
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+
+
+
+\FunctionTok{ggplot}\NormalTok{(dat, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{y=}\NormalTok{rm, }\AttributeTok{x=}\NormalTok{individ)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{colour=}\NormalTok{gruppe)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method=}\StringTok{"lm"}\NormalTok{, }\AttributeTok{formula=}\NormalTok{y}\SpecialCharTok{\textasciitilde{}}\NormalTok{x) }\SpecialCharTok{+}
+  
+  \FunctionTok{scale\_x\_discrete}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{04-h0_files/figure-latex/unnamed-chunk-8-1} 
+
+}
+
+\caption{**CAPTION THIS FIGURE!!**}\label{fig:unnamed-chunk-8}
+\end{figure}
+
+Her fikk jeg en intercept på 21.90 og en slope på 20.52. La oss prøve å få disse to til.
+
+\[
+Y = b0 + b1 + error
+\]
+\[
+Y = b0 + (b1*0) + error
+\]
+
+\[
+\]
+Y = b0 + (b1*1) + error
+\$\$
+
+\hypertarget{h1-alternativ-hypotese-1}{%
+\chapter{H1: Alternativ hypotese}\label{h1-alternativ-hypotese-1}}
+
+I forrige avsnitt redegjorde vi for at \textbf{null-hypotesen (H0)} er en ligning som består av kun en, som var gjennomsnittet for alle deltakerne i studien (uavhengig gruppe).
+
+\[
+data = (modell) + error
+\]
+\[
+Yi = b0 + error
+\]
+\[
+ = mean + error
+\]
+\[
+1RM = mean + error
+\]
+Det vi skal gjøre nå er å spørre oss nå er om det er behov for å legge til en ekstra prediktorvariabel i modellen eller om det er nok å beholde den ene prediktorvariabelen? Så det vi skal spørre oss om nå er
+
+\[
+ = mean + error
+\]
+En annen måte å si dette på er om det er forskjeller mellom de to gruppene eller om det ikke er det. Hvis det ikke er noen forskjeller mellom gruppene, så vil b1 være liten, og vil egentlig bare ende opp med samme prediksjon uansett hvilken gruppe de har tilhørt. Jeg har nå regnet ut hva verdiene i modellen er, så vi få et inntrykk av hvordan modellen virker før vi finner ut hvordan vi regner disse verdiene. Når jeg har brukt dummykoding har jeg fått følgende verdier i min modell:
+
+\[
+%1RM = b0 + b1 + error
+\]
+
+\[
+%1RM = 21.90  + b1(20.52*gruppe) + error
+\]
+
+Husk at gruppen vår er dummykodet som 0 og 1. Så hvis jeg har å gjøre med et individ som tilhører gruppe 0, så blir resultatet følgende
+
+\[
+%1RM = 21.90  + b1(20.52*0) + error
+\]
+
+\[
+%1RM = 21.90 + error
+\]
+20.52*0 = 0, så vår prediksjon av et individ som tihører gruppe 0 blir da kun 21.90. Hvis vi har en person tilhørte gruppe 1, så blir vår prediksjon
+
+\[
+%1RM = 21.90 + b1(20.52*1) error
+\]
+Som blir 42.42. Hva er spesielt med disse verdiene? Gå tilbake til.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{2002}\NormalTok{) }\CommentTok{\#viktig å ha med denne for å få nøyaktig samme datasett}
+\NormalTok{tre.sett }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{12}\NormalTok{, }\AttributeTok{mean =} \DecValTok{41}\NormalTok{, }\AttributeTok{sd =} \DecValTok{5}\NormalTok{) }\CommentTok{\#12 individer}
+\NormalTok{ett.sett }\OtherTok{\textless{}{-}}\FunctionTok{rnorm}\NormalTok{(}\AttributeTok{n =} \DecValTok{12}\NormalTok{, }\AttributeTok{mean =} \DecValTok{21}\NormalTok{, }\AttributeTok{sd =} \DecValTok{5}\NormalTok{) }\CommentTok{\#12 individer}
+
+\CommentTok{\#lager en tibble fra tidyverse{-}pakken. Må ha lastet inn tidyverse library(tidyverse) i scriptfilen}
+\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{individ =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{24}\NormalTok{),}
+              \AttributeTok{gruppe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"tre.sett "}\NormalTok{, }\StringTok{"ett.sett"}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\FunctionTok{length}\NormalTok{(tre.sett), }\FunctionTok{length}\NormalTok{(ett.sett))),}
+              \AttributeTok{rm =} \FunctionTok{c}\NormalTok{(tre.sett , ett.sett))}
+
+
+\CommentTok{\#lager et nytt objekt som heter dummykodet.dat}
+\NormalTok{dat }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# her lager jeg en ny kolonne som heter dummykoder. If gruppe == \textquotesingle{}ett.sett\textquotesingle{}, gi verdien 0, else gi de 1.}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{dummykodet =} \FunctionTok{if\_else}\NormalTok{(gruppe }\SpecialCharTok{==} \StringTok{"ett.sett"}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\NormalTok{  )}
+
+
+\NormalTok{dat }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# her lager jeg en ny kolonne som heter dummykoder. If gruppe == \textquotesingle{}ett.sett\textquotesingle{}, gi verdien 0, else gi de 1.}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{kontrast =} \FunctionTok{if\_else}\NormalTok{(gruppe }\SpecialCharTok{==} \StringTok{"ett.sett"}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.5}\NormalTok{, }\FloatTok{0.5}\NormalTok{)}
+\NormalTok{  )}
+
+\NormalTok{dat }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{dummykodet =} \FunctionTok{as.factor}\NormalTok{(dummykodet),}
+         \AttributeTok{kontrast =} \FunctionTok{as.factor}\NormalTok{(kontrast))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{lm}\NormalTok{(rm }\SpecialCharTok{\textasciitilde{}}\NormalTok{ dummykodet, dat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = rm ~ dummykodet, data = dat)
+## 
+## Coefficients:
+## (Intercept)  dummykodet1  
+##       21.90        20.52
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+
+
+
+\FunctionTok{ggplot}\NormalTok{(dat, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{y=}\NormalTok{rm, }\AttributeTok{x=}\NormalTok{individ)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{colour=}\NormalTok{gruppe)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method=}\StringTok{"lm"}\NormalTok{, }\AttributeTok{formula=}\NormalTok{y}\SpecialCharTok{\textasciitilde{}}\NormalTok{x) }\SpecialCharTok{+}
+  
+  \FunctionTok{scale\_x\_discrete}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{05-h1_files/figure-latex/unnamed-chunk-4-1} 
+
+}
+
+\caption{**CAPTION THIS FIGURE!!**}\label{fig:unnamed-chunk-4}
+\end{figure}
+
+Her fikk jeg en intercept på 21.90 og en slope på 20.52. La oss prøve å få disse to til.
+
+\[
+Y = b0 + b1 + error
+\]
+\[
+Y = b0 + (b1*0) + error
+\]
+
+\[
+\]
+Y = b0 + (b1*1) + error
+\$\$
+
+\hypertarget{f-ratio-og-signifikanstesting}{%
+\chapter{f-ratio og signifikanstesting}\label{f-ratio-og-signifikanstesting}}
+
+We have finished a nice book.
+
+\hypertarget{f-tester-i-jamovi}{%
+\chapter{F-tester i Jamovi}\label{f-tester-i-jamovi}}
+
+We have finished a nice book.
+
+\hypertarget{koding-av-kategoriske-variabler-1}{%
+\chapter{Koding av kategoriske variabler}\label{koding-av-kategoriske-variabler-1}}
+
+I tabellen på s. kan du se at vi har en tabell med tre kolonner: en kolonne for hver variabel vi har i vårt datasett. Variabelen \textbf{gruppe} er en kategorisk vaiabel som har to ulike verdier: ``ett.sett'' og ``tre.sett''. Dette er de to gruppene som vi skal teste om er forskjellige. I programmeringsverdenen kalles disse denne typen data for et tekstobjekt, ``strings'' (python/javascript) eller ``characters'' (R). På norsk kalles disse verdiene for ord. Uansett navn er problemet at vi ikke kan putte ord inn i en statistisk modell; vi er nødt til å representere denne kategoriske vaiabelen med tallverdier. Det er flere måter å gjøre dette på, men de forskjellige måtene gir ulik resultat. Derfor må vi vie en god del tid på dette. Vi går gjennom to måter å gjøre dette på.
+
+\hypertarget{dummykoding-1}{%
+\section{Dummykoding}\label{dummykoding-1}}
+
+En vanlig metode kalles \textbf{dummykoding} eller \textbf{treatment-koding}. Den går ut på å lage en eller flere variabler med 0 og 1 som de to mulige verdiene. Antall variabler vi trenger avhenger av antall grupper vi vil sammenligne. Siden vårt datasett kun inneholder to grupper, så trenger vi kun en variabel. Vi kan den ene gruppen og den andre 1. Hovedregelen er at vi gir 0 til baselinegruppe og 1 til den eksperimentelle gruppen. Vi gir derfor 0 til 1.sett-gruppen og 1 til 3.sett-gruppen. Gjør dette før du går videre.
+
+I R og Jamovi kan du gjøre det med følgende if/else statement. I R kan du bruke følgende kode:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#lager et nytt objekt som heter dummykodet.dat}
+\NormalTok{dummykodet.dat }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# her lager jeg en ny kolonne som heter dummykoder. If gruppe == \textquotesingle{}ett.sett\textquotesingle{}, gi verdien 0, else gi de 1.}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{dummykodet =} \FunctionTok{if\_else}\NormalTok{(gruppe }\SpecialCharTok{==} \StringTok{"ett.sett"}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+I jamovi ville jeg sett følgende video: \url{https://www.youtube.com/watch?v=iITxK27LfZk}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-4}Dummy koding}
+\centering
+\begin{tabular}[t]{r|l|r|r}
+\hline
+individ & gruppe & rm & dummykodet\\
+\hline
+1 & tre.sett & 40.467 & 1\\
+\hline
+2 & tre.sett & 49.072 & 1\\
+\hline
+3 & tre.sett & 47.941 & 1\\
+\hline
+4 & tre.sett & 44.514 & 1\\
+\hline
+5 & tre.sett & 52.288 & 1\\
+\hline
+6 & tre.sett & 40.018 & 1\\
+\hline
+7 & tre.sett & 49.484 & 1\\
+\hline
+8 & tre.sett & 29.210 & 1\\
+\hline
+9 & tre.sett & 40.593 & 1\\
+\hline
+10 & tre.sett & 37.587 & 1\\
+\hline
+11 & tre.sett & 35.427 & 1\\
+\hline
+12 & tre.sett & 42.494 & 1\\
+\hline
+13 & ett.sett & 17.706 & 0\\
+\hline
+14 & ett.sett & 17.072 & 0\\
+\hline
+15 & ett.sett & 18.268 & 0\\
+\hline
+16 & ett.sett & 25.426 & 0\\
+\hline
+17 & ett.sett & 32.703 & 0\\
+\hline
+18 & ett.sett & 19.102 & 0\\
+\hline
+19 & ett.sett & 22.238 & 0\\
+\hline
+20 & ett.sett & 22.271 & 0\\
+\hline
+21 & ett.sett & 26.179 & 0\\
+\hline
+22 & ett.sett & 20.349 & 0\\
+\hline
+23 & ett.sett & 23.528 & 0\\
+\hline
+24 & ett.sett & 17.960 & 0\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{kontrastkoding-1}{%
+\section{Kontrastkoding}\label{kontrastkoding-1}}
+
+Kontrastkoding er et alternativ til dummykoding. Det er en regel som er viktig å følge for å ha en gyldig kontrastkode, og det er at summen av kontrastkodene blir 0. For eksempel er -0.5 og 0.5 gyldige kontrastkoder fordi summen av disse blir 0. Det samme er -10 og +10. 0 og 1 derimot, slik vi har med en dummykodet variabel, er ikke er en gyldig kontrastkode fordi summen av disse blir 1. \textbf{Hvilke verdier vi velger å bruke på vår kontrastkodede variabel betyr ingenting for den statistiske test vi gjennomfører, men gjør at vi må fortolke resultatene litt forskjellig}. Med en kontrastkode på +10 og -10 er det en 20 enhets forskjell, mens det ved +0.5 og -0.5 kun er enhet forskjell.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#lager et nytt objekt som heter dummykodet.dat}
+\NormalTok{kontrastkodet.dat }\OtherTok{\textless{}{-}}\NormalTok{ dummykodet.dat }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# her lager jeg en ny kolonne som heter kontrastkodet. If gruppe == \textquotesingle{}ett.sett\textquotesingle{}, gi verdien {-}0.5, else gi de +0.5}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{kontrastkodet =} \FunctionTok{if\_else}\NormalTok{(gruppe }\SpecialCharTok{==} \StringTok{"ett.sett"}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.5}\NormalTok{, }\SpecialCharTok{+}\FloatTok{0.5}\NormalTok{)}
+\NormalTok{         )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-6}Kontrastkoding}
+\centering
+\begin{tabular}[t]{r|l|r|r|r}
+\hline
+individ & gruppe & rm & dummykodet & kontrastkodet\\
+\hline
+1 & tre.sett & 40.467 & 1 & 0.5\\
+\hline
+2 & tre.sett & 49.072 & 1 & 0.5\\
+\hline
+3 & tre.sett & 47.941 & 1 & 0.5\\
+\hline
+4 & tre.sett & 44.514 & 1 & 0.5\\
+\hline
+5 & tre.sett & 52.288 & 1 & 0.5\\
+\hline
+6 & tre.sett & 40.018 & 1 & 0.5\\
+\hline
+7 & tre.sett & 49.484 & 1 & 0.5\\
+\hline
+8 & tre.sett & 29.210 & 1 & 0.5\\
+\hline
+9 & tre.sett & 40.593 & 1 & 0.5\\
+\hline
+10 & tre.sett & 37.587 & 1 & 0.5\\
+\hline
+11 & tre.sett & 35.427 & 1 & 0.5\\
+\hline
+12 & tre.sett & 42.494 & 1 & 0.5\\
+\hline
+13 & ett.sett & 17.706 & 0 & -0.5\\
+\hline
+14 & ett.sett & 17.072 & 0 & -0.5\\
+\hline
+15 & ett.sett & 18.268 & 0 & -0.5\\
+\hline
+16 & ett.sett & 25.426 & 0 & -0.5\\
+\hline
+17 & ett.sett & 32.703 & 0 & -0.5\\
+\hline
+18 & ett.sett & 19.102 & 0 & -0.5\\
+\hline
+19 & ett.sett & 22.238 & 0 & -0.5\\
+\hline
+20 & ett.sett & 22.271 & 0 & -0.5\\
+\hline
+21 & ett.sett & 26.179 & 0 & -0.5\\
+\hline
+22 & ett.sett & 20.349 & 0 & -0.5\\
+\hline
+23 & ett.sett & 23.528 & 0 & -0.5\\
+\hline
+24 & ett.sett & 17.960 & 0 & -0.5\\
+\hline
+\end{tabular}
+\end{table}
+
+Spørsmålet dere sikkert lurer på er hvorfor vi dummykoder og kontrastkoder gruppe-variabelen vår. Det korte svaret er at vo gjør det fordi vi skal se at disse to måtene å kode på produserer forskjellige svar.
+
+\hypertarget{hvilken-modell-skal-vi-velge-1}{%
+\chapter{Hvilken modell skal vi velge?}\label{hvilken-modell-skal-vi-velge-1}}
+
+Her tenker jeg å si litt om at vi har ulike muligheter.
+
+\hypertarget{appendix-appendices}{%
+\appendix}
+
+
+  \bibliography{book.bib,packages.bib}
+
+\end{document}
